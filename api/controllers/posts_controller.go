@@ -86,7 +86,7 @@ func (server *Server) GetPost(w http.ResponseWriter, r *http.Request) {
 func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 
 	vars := mux.Vars(r)
-	_, err := strconv.ParseUint(vars["id"], 10, 64)
+	pid, err := strconv.ParseUint(vars["id"], 10, 64)
 	if err != nil {
 		responses.ERROR(w, http.StatusBadRequest, err)
 		return
@@ -117,7 +117,7 @@ func (server *Server) UpdatePost(w http.ResponseWriter, r *http.Request) {
 		responses.ERROR(w, http.StatusUnauthorized, errors.New(http.StatusText(http.StatusUnauthorized)))
 		return
 	}
-	postUpdated, err := post.UpdateAPost(server.DB)
+	postUpdated, err := post.UpdateAPost(server.DB, pid)
 
 	if err != nil {
 		formattedError := formaterror.FormatError(err.Error())

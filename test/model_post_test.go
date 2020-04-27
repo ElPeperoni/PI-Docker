@@ -92,7 +92,7 @@ func TestUpdateAPost(t *testing.T) {
 		Content:  "modiupdate@gmail.com",
 		AuthorID: post.AuthorID,
 	}
-	updatedPost, err := postUpdate.UpdateAPost(server.DB, post.ID)
+	updatedPost, err := postUpdate.UpdateAPost(server.DB, postUpdate.ID)
 	if err != nil {
 		t.Errorf("this is the error updating the user: %v\n", err)
 		return
