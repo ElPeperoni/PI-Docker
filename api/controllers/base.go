@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"log"
-	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
@@ -50,11 +49,12 @@ func (server *Server) Initialize(Dbdriver, DbUser, DbPassword, DbPort, DbHost, D
 	fmt.Println("Starting Server")
 	server.Router = mux.NewRouter()
 
-	fmt.Println("Initializing Routes")
-	server.initializeRoutes()
+	if err = server.initializeRoutes(); err == nil {
+		fmt.Println("Initialized Routes")
+	}
 }
 
-func (s *Server) initializeRoutes() {
+func (s *Server) initializeRoutes() error {
 
 	// Home Route
 	fmt.Println("Home Route")
@@ -79,9 +79,7 @@ func (s *Server) initializeRoutes() {
 	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareJSON(s.GetPost)).Methods("GET")
 	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareJSON(middlewares.SetMiddlewareAuthentication(s.UpdatePost))).Methods("PUT")
 	s.Router.HandleFunc("/posts/{id}", middlewares.SetMiddlewareAuthentication(s.DeletePost)).Methods("DELETE")
+
+	return nil
 }
 
-func (server *Server) Run(addr string) {
-	fmt.Println("Listening to port: ", addr)
-	log.Println(http.ListenAndServe(addr, server.Router))
-}

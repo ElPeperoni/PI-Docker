@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"net/http"
 
 	"github.com/joho/godotenv"
 	"github.com/ElPeperoni/PI-Docker/api/controllers"
-	//"github.com/ElPeperoni/PI-Docker/api/seed"
+	"github.com/ElPeperoni/PI-Docker/api/seed"
 )
 
 var server = controllers.Server{}
@@ -32,9 +33,11 @@ func Run() {
 	fmt.Println("Setting all up!")
 	server.Initialize(os.Getenv("DB_DRIVER"), os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"), os.Getenv("DB_PORT"), os.Getenv("DB_HOST"), os.Getenv("DB_NAME"))
 
-	//seed.Load(server.DB)
+	seed.Load(server.DB)
 
 	fmt.Println("Finished Setup!")
-	server.Run("localhost:8080")
 
+
+	fmt.Println("Listening to port: 8080")
+	log.Fatal(http.ListenAndServe(":8080", server.Router))
 }
