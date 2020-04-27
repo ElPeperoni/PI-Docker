@@ -1,9 +1,10 @@
-package modeltests
+package tests
 
 import (
 	"log"
 	"testing"
 
+	_ "github.com/jinzhu/gorm/dialects/mysql"    //mysql driver
 	_ "github.com/jinzhu/gorm/dialects/postgres" //postgres driver
 	"github.com/ElPeperoni/PI-Docker/api/models"
 	"gopkg.in/go-playground/assert.v1"
@@ -16,7 +17,7 @@ func TestFindAllUsers(t *testing.T) {
 		log.Fatal(err)
 	}
 
-	err = seedUsers()
+	_, err = seedUsers()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -35,6 +36,7 @@ func TestSaveUser(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
+
 	newUser := models.User{
 		ID:       1,
 		Email:    "test@gmail.com",
@@ -51,7 +53,7 @@ func TestSaveUser(t *testing.T) {
 	assert.Equal(t, newUser.Nickname, savedUser.Nickname)
 }
 
-func TestGetUserByID(t *testing.T) {
+func TestFindUserByID(t *testing.T) {
 
 	err := refreshUserTable()
 	if err != nil {

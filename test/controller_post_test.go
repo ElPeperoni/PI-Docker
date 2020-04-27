@@ -1,4 +1,4 @@
-package controllertests
+package tests
 
 import (
 	"bytes"
@@ -149,7 +149,7 @@ func TestGetPosts(t *testing.T) {
 	assert.Equal(t, rr.Code, http.StatusOK)
 	assert.Equal(t, len(posts), 2)
 }
-func TestGetPostByID(t *testing.T) {
+func TestFindPostByID(t *testing.T) {
 
 	err := refreshUserAndPostTable()
 	if err != nil {
@@ -307,9 +307,9 @@ func TestUpdatePost(t *testing.T) {
 		{
 			id:           strconv.Itoa(int(AuthPostID)),
 			updateJSON:   `{"title":"This is another title", "content": "This is the updated content"}`,
-			statusCode:   401,
+			statusCode:   422,
 			tokenGiven:   tokenString,
-			errorMessage: "Unauthorized",
+			errorMessage: "Required Author",
 		},
 		{
 			id:         "unknwon",
@@ -435,6 +435,7 @@ func TestDeletePost(t *testing.T) {
 			errorMessage: "Unauthorized",
 		},
 	}
+
 	for _, v := range postSample {
 
 		req, _ := http.NewRequest("GET", "/posts", nil)
