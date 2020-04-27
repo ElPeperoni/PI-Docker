@@ -1,0 +1,18 @@
+### Clear Docker ###
+docker system prune -a --volumes
+
+## Test App ###
+docker-compose -f docker-compose.test.yaml up --build --abort-on-container-exit
+
+### End App ###
+docker-compose down
+docker-compose down --remove-orphans --volumes 
+
+### IP-Adress for PGadmin ###
+docker inspect <container_id> | grep IPAddress
+
+### Run in background ###
+docker-compose up -d
+
+### Build App ###
+docker-compose up --build
