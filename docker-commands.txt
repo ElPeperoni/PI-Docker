@@ -1,3 +1,6 @@
+### Start Docker ###
+docker-machine start 
+
 ### Clear Docker ###
 docker system prune -a --volumes
 

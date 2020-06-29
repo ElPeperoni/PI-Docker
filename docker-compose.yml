@@ -1,14 +1,27 @@
 version: '3.5'
 
 services:
-  app:
-    container_name: full_app
+  frontend:
+    container_name: full_frontend
+    build: ./FRONT-END
+    ports: 
+      - 8100:8100 
+    restart: on-failure
+    volumes:
+      - front_end:/usr/src/front_end/
+    depends_on:
+      - api
+    networks:
+      - fullstack
+
+  api:
+    container_name: full_api
     build: .
     ports: 
       - 8080:8080 
     restart: on-failure
     volumes:
-      - api:/usr/src/app/
+      - api:/usr/src/api/
     depends_on:
       - fullstack-postgres          # Uncomment this when using postgres.
       # - fullstack-mysql           # Uncomment this when using mysql.
@@ -79,6 +92,7 @@ services:
 
 
 volumes:
+  front_end:
   api:
   database_postgres:                  # Uncomment this when using postgres.
   # database_mysql:                   # Uncomment this when using mysql.
