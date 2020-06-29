@@ -10,10 +10,11 @@ import (
 )
 
 type Task struct {
-	ID         uint64 `gorm:"primary_key;auto_increment" json:"id"`
-	Title      string `gorm:"size:255;not null;unique" json:"title"`
-	Content    string `gorm:"size:255;not null;" json:"content"`
-	Finished   bool   `gorm: "default:FALSE" json:"finished"`
+	ID         uint64    `gorm:"primary_key;auto_increment" json:"id"`
+	Title      string    `gorm:"size:255;not null;unique" json:"title"`
+	Content    string    `gorm:"size:255;not null;" json:"content"`
+	EndingAt   time.Time `gorm:"default:NULL" json:"ending_at"`
+	Finished   bool      `gorm: "default:FALSE" json:"finished"`
 	SubtaskIDs []uint64
 	Author     User      `json:"author"`
 	AuthorID   uint32    `gorm:"not null" json:"author_id"`
