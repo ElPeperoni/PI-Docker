@@ -1,6 +1,9 @@
 ### Start Docker ###
 docker-machine start 
 
+### Get IP - Adress of Machine ###
+docker-machine ls
+
 ### Clear Docker ###
 docker system prune -a --volumes
 
